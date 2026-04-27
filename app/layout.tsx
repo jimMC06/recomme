@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AppStateProvider } from "@/components/AppStateProvider";
 import { Navbar } from "@/components/Navbar";
 import { PlayerBar } from "@/components/PlayerBar";
+import { QueuePanel } from "@/components/QueuePanel";
 
 import "./globals.css";
 
@@ -42,8 +43,9 @@ export default function RootLayout({
             {children}
           </div>
 
-          {/* The player bar is mounted once here so playback UI stays persistent across routes. */}
+          {/* The player bar and queue are separate fixed elements so neither creates a large overlay. */}
           <PlayerBar />
+          <QueuePanel />
         </AppStateProvider>
       </body>
     </html>

@@ -1,10 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export function Navbar() {
   // The App Router hook gives this shared layout component access to browser navigation.
   const router = useRouter();
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+      return;
+    }
+
+    router.push("/");
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-gray-800 bg-black/95 backdrop-blur">
@@ -29,18 +39,17 @@ export function Navbar() {
         <div className="flex shrink-0 items-center gap-2">
           <button
             type="button"
-            onClick={() => router.back()}
+            onClick={handleBack}
             className="rounded-full border border-gray-700 px-3 py-2 text-sm text-white transition hover:border-gray-500"
           >
             Back
           </button>
-          <button
-            type="button"
-            onClick={() => router.push("/discover")}
+          <Link
+            href="/"
             className="rounded-full border border-gray-700 px-3 py-2 text-sm text-white transition hover:border-gray-500"
           >
             Home
-          </button>
+          </Link>
           <button
             type="button"
             className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-sm text-white transition hover:border-gray-500"
