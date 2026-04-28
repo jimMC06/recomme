@@ -13,6 +13,7 @@ export function Navbar() {
   const [searchValue, setSearchValue] = useState("");
   const [hasSearchError, setHasSearchError] = useState(false);
   const [showNotFoundToast, setShowNotFoundToast] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   const normalizedSearchValue = searchValue.trim().toLowerCase();
 
@@ -158,13 +159,35 @@ export function Navbar() {
           >
             Home
           </Link>
-          <button
-            type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-sm text-white transition hover:border-gray-500"
-            aria-label="Profile and settings"
-          >
-            P
-          </button>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() =>
+                setIsProfileMenuOpen((currentValue) => !currentValue)
+              }
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-sm text-white transition hover:border-gray-500"
+              aria-label="Profile and settings"
+              aria-expanded={isProfileMenuOpen}
+            >
+              P
+            </button>
+
+            {isProfileMenuOpen ? (
+              <div className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-gray-800 bg-gray-950 shadow-2xl shadow-black/40">
+                {["Streaming Service Connection", "Settings", "Sign Out"].map(
+                  (option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      className="block w-full px-4 py-3 text-left text-sm text-white transition hover:bg-gray-900"
+                    >
+                      {option}
+                    </button>
+                  )
+                )}
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
 
