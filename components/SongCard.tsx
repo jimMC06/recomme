@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 
+import { AddToQueueButton } from "@/components/AddToQueueButton";
+import { PlaySongButton } from "@/components/PlaySongButton";
 import { SongActions } from "@/components/SongActions";
 import type { Song } from "@/types/song";
 
@@ -12,57 +14,50 @@ type SongCardProps = {
 export function SongCard({ song }: SongCardProps) {
   return (
     // Each song card surfaces the most important metadata and a few placeholder actions.
-    <article className="rounded-lg border border-gray-800 bg-gray-900 p-4">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3 className="text-lg font-semibold">{song.title}</h3>
-          <p className="text-sm text-gray-400">{song.artist}</p>
+    <article className="rounded-lg border border-gray-800 bg-gray-900 p-3">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start gap-3">
+            <PlaySongButton song={song} />
+            <div className="min-w-0">
+              <h3 className="truncate text-base font-semibold text-white">
+                {song.title}
+              </h3>
+              <p className="truncate text-sm text-gray-400">{song.artist}</p>
+            </div>
+          </div>
+
+          <div className="mt-2 flex flex-wrap gap-2">
+            {song.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-gray-700 px-2 py-1 text-xs text-gray-300"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <p className="rounded-lg bg-green-500 px-3 py-1 text-sm font-semibold text-black">
-          {song.match}% Match
-        </p>
-      </div>
-
-      {/* These quick facts mirror the filter fields so users can compare songs quickly. */}
-      <div className="mt-3 grid gap-2 text-sm text-gray-300 sm:grid-cols-2">
-        <p>Genre: {song.genre}</p>
-        <p>Vibe: {song.vibe}</p>
-        <p>Task: {song.task}</p>
-        <p>Popularity: {song.popularity}</p>
-      </div>
-
-      {/* Tags give a denser summary view without taking up much space. */}
-      <div className="mt-3 flex flex-wrap gap-2">
-        {song.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-full border border-gray-700 px-2 py-1 text-xs text-gray-300"
+        <div className="flex flex-wrap items-start gap-2 lg:max-w-md lg:justify-end">
+          <p className="rounded-lg bg-green-500 px-3 py-1 text-sm font-semibold text-black">
+            {song.match}% Match
+          </p>
+          <SongActions song={song} compact />
+          <button className="rounded-lg border border-gray-700 px-3 py-2 text-sm">
+            Preview
+          </button>
+          <AddToQueueButton
+            song={song}
+            className="rounded-lg border border-gray-700 px-3 py-2 text-sm"
+          />
+          <Link
+            href={`/stats/${song.id}`}
+            className="rounded-lg border border-gray-700 px-3 py-2 text-sm"
           >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {/* Shared preference buttons are grouped separately from playback-related actions. */}
-      <div className="mt-4">
-        <SongActions song={song} />
-      </div>
-
-      {/* These buttons are placeholders for future interactive features. */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        <button className="rounded-lg border border-gray-700 px-3 py-2 text-sm">
-          Preview
-        </button>
-        <button className="rounded-lg border border-gray-700 px-3 py-2 text-sm">
-          Add to Queue
-        </button>
-        <Link
-          href={`/stats/${song.id}`}
-          className="rounded-lg border border-gray-700 px-3 py-2 text-sm"
-        >
-          Stats
-        </Link>
+            Stats
+          </Link>
+        </div>
       </div>
     </article>
   );

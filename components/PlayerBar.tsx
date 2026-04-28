@@ -3,46 +3,30 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { useSongLists } from "@/components/AppStateProvider";
 import { SongActions } from "@/components/SongActions";
-import { songs } from "@/data/songs";
 
-// These placeholder songs let the player UI feel alive before real audio playback exists.
-const playlist = songs.slice(0, 5);
-// Each song gets a fake progress amount so the bar changes as the current track changes.
-const progressSteps = [28, 46, 61, 34, 52];
-// These times are also mock data for now and match the placeholder progress states above.
-const timeSteps = [
-  { current: "0:42", total: "2:31" },
-  { current: "1:18", total: "2:49" },
-  { current: "2:04", total: "3:22" },
-  { current: "0:57", total: "2:45" },
-  { current: "1:31", total: "3:05" },
-];
+function getProgress(match: number) {
+  return Math.max(24, Math.min(72, match - 24));
+}
+
+function getPlaybackTime(match: number) {
+  const currentSeconds = 35 + (match % 80);
+  const totalSeconds = 165 + (match % 75);
+
+  return {
+    current: `${Math.floor(currentSeconds / 60)}:${String(currentSeconds % 60).padStart(2, "0")}`,
+    total: `${Math.floor(totalSeconds / 60)}:${String(totalSeconds % 60).padStart(2, "0")}`,
+  };
+}
 
 export function PlayerBar() {
-  // The current track index drives the displayed song and progress state.
-  const [currentIndex, setCurrentIndex] = useState(0);
   // This toggles the play button label until real playback logic is added.
   const [isPlaying, setIsPlaying] = useState(false);
-
-  // These derived values keep the JSX below focused on display instead of data lookups.
-  const currentSong = playlist[currentIndex];
-  const progress = progressSteps[currentIndex];
-  const time = timeSteps[currentIndex];
-
-  // The previous button wraps around to the end of the placeholder playlist.
-  const goToPreviousSong = () => {
-    setCurrentIndex((current) =>
-      current === 0 ? playlist.length - 1 : current - 1
-    );
-  };
-
-  // The next button wraps back to the first song after the last song.
-  const goToNextSong = () => {
-    setCurrentIndex((current) =>
-      current === playlist.length - 1 ? 0 : current + 1
-    );
-  };
+  const { currentSong, playNextFromQueue, playPreviousFromHistory } =
+    useSongLists();
+  const progress = getProgress(currentSong.match);
+  const time = getPlaybackTime(currentSong.match);
 
   return (
     <section className="pointer-events-auto fixed bottom-4 left-4 right-4 z-50 rounded-[24px] border border-gray-800 bg-gray-950/95 px-4 py-2 shadow-2xl shadow-black/40 backdrop-blur md:right-[22rem] md:px-5">
@@ -73,7 +57,7 @@ export function PlayerBar() {
           <div className="flex items-center justify-center gap-2">
             <button
               type="button"
-              onClick={goToPreviousSong}
+              onClick={playPreviousFromHistory}
               className="rounded-full border border-gray-700 px-3 py-1.5 text-xs font-medium text-white transition hover:border-gray-500"
             >
               Prev
@@ -87,7 +71,7 @@ export function PlayerBar() {
             </button>
             <button
               type="button"
-              onClick={goToNextSong}
+              onClick={playNextFromQueue}
               className="rounded-full border border-gray-700 px-3 py-1.5 text-xs font-medium text-white transition hover:border-gray-500"
             >
               Next

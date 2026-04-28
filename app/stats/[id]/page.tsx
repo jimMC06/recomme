@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { AddToQueueButton } from "@/components/AddToQueueButton";
 import { SongActions } from "@/components/SongActions";
 import { songs } from "@/data/songs";
 
@@ -151,6 +154,12 @@ export default async function SongStatsPage({ params }: SongStatsPageProps) {
             </div>
 
             <div className="mt-4 space-y-3">
+              <Link
+                href={`/song-mix/${song.id}`}
+                className="flex w-full items-center justify-center rounded-xl border border-green-900 bg-green-500/10 px-4 py-3 text-sm font-medium text-green-300 transition hover:border-green-700"
+              >
+                Create Song Mix
+              </Link>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
@@ -158,12 +167,10 @@ export default async function SongStatsPage({ params }: SongStatsPageProps) {
                 >
                   Preview
                 </button>
-                <button
-                  type="button"
+                <AddToQueueButton
+                  song={song}
                   className="rounded-xl border border-gray-700 px-3 py-3 text-sm font-medium text-white transition hover:border-gray-500"
-                >
-                  Add to Queue
-                </button>
+                />
               </div>
               <div className="flex justify-center">
                 <SongActions song={song} />
