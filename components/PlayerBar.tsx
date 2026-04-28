@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { SongActions } from "@/components/SongActions";
@@ -45,7 +46,13 @@ export function PlayerBar() {
 
   return (
     <section className="pointer-events-auto fixed bottom-4 left-4 right-4 z-50 rounded-[24px] border border-gray-800 bg-gray-950/95 px-4 py-2 shadow-2xl shadow-black/40 backdrop-blur md:right-[22rem] md:px-5">
-      <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-5">
+      <Link
+        href={`/stats/${currentSong.id}`}
+        className="absolute right-4 top-2 rounded-lg border border-gray-700 px-2 py-1 text-xs text-gray-200 transition hover:border-gray-500"
+      >
+        Stats
+      </Link>
+      <div className="flex flex-col gap-2 pr-16 lg:flex-row lg:items-center lg:gap-5">
         {/* Song metadata stays on the left so the player reads like a real music app. */}
         <div className="min-w-0 lg:w-60">
           <p className="text-[10px] uppercase tracking-[0.22em] text-gray-500">

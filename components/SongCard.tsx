@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { SongActions } from "@/components/SongActions";
 import type { Song } from "@/types/song";
 
@@ -55,9 +57,12 @@ export function SongCard({ song }: SongCardProps) {
         <button className="rounded-lg border border-gray-700 px-3 py-2 text-sm">
           Add to Queue
         </button>
-        <button className="rounded-lg border border-gray-700 px-3 py-2 text-sm">
+        <Link
+          href={`/stats/${song.id}`}
+          className="rounded-lg border border-gray-700 px-3 py-2 text-sm"
+        >
           Stats
-        </button>
+        </Link>
       </div>
     </article>
   );

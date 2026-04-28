@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { useSongLists } from "@/components/AppStateProvider";
@@ -99,7 +100,7 @@ export default function PlaylistPage() {
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap gap-2 lg:justify-end">
+                  <div className="flex flex-wrap gap-2 lg:flex-col lg:items-end">
                     {/* These actions stay simple placeholders except for playlist removal. */}
                     <button
                       type="button"
@@ -114,6 +115,12 @@ export default function PlaylistPage() {
                     >
                       Remove from Playlist
                     </button>
+                    <Link
+                      href={`/stats/${song.id}`}
+                      className="flex items-center justify-center rounded-lg border border-gray-700 px-3 py-2 text-sm text-white transition hover:border-gray-500"
+                    >
+                      Stats
+                    </Link>
                   </div>
                 </div>
               </article>
@@ -190,21 +197,29 @@ export default function PlaylistPage() {
                       ) : null}
                     </div>
 
-                    <div className="flex flex-wrap gap-2 lg:justify-end">
+                    <div className="flex flex-wrap items-start gap-2 lg:justify-end">
                       <button
                         type="button"
                         className="rounded-lg border border-gray-700 px-3 py-2 text-sm text-white transition hover:border-gray-500"
                       >
                         Preview
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => addToPlaylist(song)}
-                        disabled={alreadyInPlaylist}
-                        className="rounded-lg border border-green-900 px-3 py-2 text-sm text-green-300 transition hover:border-green-700 disabled:cursor-not-allowed disabled:border-gray-800 disabled:text-gray-500"
-                      >
-                        {alreadyInPlaylist ? "Added" : "Add to playlist"}
-                      </button>
+                      <div className="flex flex-col gap-2">
+                        <button
+                          type="button"
+                          onClick={() => addToPlaylist(song)}
+                          disabled={alreadyInPlaylist}
+                          className="rounded-lg border border-green-900 px-3 py-2 text-sm text-green-300 transition hover:border-green-700 disabled:cursor-not-allowed disabled:border-gray-800 disabled:text-gray-500"
+                        >
+                          {alreadyInPlaylist ? "Added" : "Add to playlist"}
+                        </button>
+                        <Link
+                          href={`/stats/${song.id}`}
+                          className="flex items-center justify-center rounded-lg border border-gray-700 px-3 py-2 text-sm text-white transition hover:border-gray-500"
+                        >
+                          Stats
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </article>
