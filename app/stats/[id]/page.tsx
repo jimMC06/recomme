@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { AddToQueueButton } from "@/components/AddToQueueButton";
+import { PlaySongButton } from "@/components/PlaySongButton";
 import { SongActions } from "@/components/SongActions";
 import { songs } from "@/data/songs";
 
@@ -142,7 +143,7 @@ export default async function SongStatsPage({ params }: SongStatsPageProps) {
 
         <aside className="space-y-4">
           <div className="rounded-2xl border border-gray-800 bg-gray-950 p-5">
-            <div className="flex aspect-square items-center justify-center rounded-2xl border border-gray-800 bg-gradient-to-br from-gray-800 via-gray-950 to-green-950 text-center">
+            <div className="relative flex aspect-square items-center justify-center rounded-2xl border border-gray-800 bg-gradient-to-br from-gray-800 via-gray-950 to-green-950 text-center">
               <div>
                 <p className="text-sm uppercase tracking-[0.22em] text-gray-500">
                   Cover
@@ -151,6 +152,10 @@ export default async function SongStatsPage({ params }: SongStatsPageProps) {
                   {song.title}
                 </p>
               </div>
+              <PlaySongButton
+                song={song}
+                className="absolute bottom-4 left-4 bg-black/40 backdrop-blur"
+              />
             </div>
 
             <div className="mt-4 space-y-3">

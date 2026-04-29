@@ -323,6 +323,12 @@ export default function PlaylistPage() {
             >
               Save Playlist
             </button>
+            <button
+              type="button"
+              className="rounded-xl border border-gray-700 px-4 py-3 text-sm font-medium text-white transition hover:border-gray-500"
+            >
+              Export Playlist
+            </button>
           </div>
         </div>
 
