@@ -41,7 +41,7 @@ export default function SongMixPage({ params }: SongMixPageProps) {
   const { id } = use(params);
   const startingSong = songs.find((song) => song.id === id);
   const [filters, setFilters] = useState<MixFilters>(defaultMixFilters);
-  const { addToPlaylist, isSongInPlaylist } = useSongLists();
+  const { addToPlaylist, playPlaylistNow, isSongInPlaylist } = useSongLists();
 
   const genreSongs = useMemo(() => {
     if (!startingSong) {
@@ -227,10 +227,17 @@ export default function SongMixPage({ params }: SongMixPageProps) {
         </aside>
 
         <section className="space-y-6">
-          <div className="rounded-2xl border border-gray-800 bg-gray-950 p-6">
+          <div className="relative rounded-2xl border border-gray-800 bg-gray-950 p-6">
             <p className="text-xs uppercase tracking-[0.22em] text-green-400">
               Song Mix
             </p>
+            <button
+              type="button"
+              onClick={() => playPlaylistNow([startingSong, ...mixSongs])}
+              className="absolute right-6 top-6 rounded-xl border border-green-900 px-4 py-3 text-sm font-medium text-green-300 transition hover:border-green-700 disabled:cursor-not-allowed disabled:border-gray-800 disabled:text-gray-500"
+            >
+              Play Mix
+            </button>
             <h1 className="mt-3 text-3xl font-bold sm:text-4xl">
               {startingSong.title} Mix
             </h1>
